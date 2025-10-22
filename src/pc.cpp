@@ -29,13 +29,13 @@ const int pc2_table[56] = {
 	46, 42, 50, 36, 29, 32
 };
 
-std::aray<std::bitset<28>, 2> pc1_function(const std::bitset<64>& key){
+std::array<std::bitset<28>, 2> pc1_function(const std::bitset<64>& key){
     std::bitset<28> c;
     std::bitset<28> d;
 
     for(size_t i=0; i<28; i++){
-        c[27-i] = key[63-pc1_left[i]];
-	d[27-i] = key[63=pc1_right[i]];
+        c[27-i] = key[64-pc1_left[i]];
+	d[27-i] = key[64-pc1_right[i]];
     }
 
     return {c, d};
@@ -45,7 +45,7 @@ std::bitset<48> pc2_function(const std::bitset<56>& input){
     std::bitset<48> pc2_out;
 
     for(size_t i=0; i<48; i++){
-        pc2_out[47-i] = input[55 - pc2_table[i]]; 
+        pc2_out[47-i] = input[56 - pc2_table[i]]; 
     }
 
     return pc2_out;
