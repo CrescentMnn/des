@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstddef>
 
 /* User Headers */
 
@@ -89,6 +90,20 @@ const int s_boxes[8][4][16] = {
 }
 
 };
+
+std::bitset<32> s_function(const std::bitset<48>& roun_exp_out){
+    std::bitset<32> s_out;
+    int rows;
+    int col;
+
+    /* std::bitset<6> temp_round */
+
+    for(size_t i=0; i<8; i++){
+        
+    }
+
+    return s_out;
+}
 
 std::bitset<32> feistel_function(const std::bitset<32>& right_half, const std::bitset<48>& round_key){
     
