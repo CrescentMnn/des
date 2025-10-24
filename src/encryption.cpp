@@ -99,7 +99,18 @@ std::bitset<32> s_function(const std::bitset<48>& roun_exp_out){
     /* std::bitset<6> temp_round */
 
     for(size_t i=0; i<8; i++){
-        
+        std::bitset<6> chunk;
+	for(size_t j=0; j<6; j++){
+	    chunk[j] = round_exp_out[i * 6 + j];
+	}
+	rows = (chunk[5] << 1) | chunk[0];
+	col = (input[4] << 3) | (input[3] << 2) | (input[2] << 1) | input[1];
+
+	int s_result = s_boxes[i][rows][col];
+
+	for(size_t j=0; j<4; j++){
+	    s_out[i * 4 + j] = (s_result >> j) & 1;
+	}
     }
 
     return s_out;
