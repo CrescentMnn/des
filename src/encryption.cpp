@@ -94,7 +94,7 @@ std::bitset<32> s_function(const std::bitset<48>& round_exp_out){
     for(size_t i=0; i<8; i++){
         std::bitset<6> chunk;
         for(size_t j=0; j<6; j++){
-            chunk[5-j] = round_exp_out[47 - (i * 6 + j)];  // Read from MSB side
+            chunk[5-j] = round_exp_out[47 - (i * 6 + j)];
         }
 	rows = (chunk[5] << 1) | chunk[0];
 	col = (chunk[4] << 3) | (chunk[3] << 2) | (chunk[2] << 1) | chunk[1];
@@ -109,12 +109,34 @@ std::bitset<32> s_function(const std::bitset<48>& round_exp_out){
     return s_out;
 }
 
+std::bitset<48> expansion_function(const std::bitset<32>& r0){
+    std::bitset<48> exp_out;
+
+    for(size_t i=0; i<48; i++){
+       exp_out[47 - i] = r0[32 - expansion_table[i]];
+    }
+
+    return exp_out;
+}
+
+std::bitset<32> permutation_function(const std::bitset<32>& s_out){
+    std::bitset<32> perm_out;
+    
+    for(size_t i=0; i<32; i++){
+        perm_out[31 - i] = s_out[32-permutation_table[i]];
+    }
+
+    return perm_out;
+}
+
 std::bitset<32> feistel_function(const std::bitset<32>& right_half, const std::bitset<48>& round_key){
     std::bitset<32> lol;
+    
     return lol;
 }
 
 std::bitset<64> encryption_round(const std::bitset<64>& plaintext, const std::array<std::bitset<48>, 16>& round_keys){
 	std::bitset<64> lolxd;
+
 	return lolxd;
 }
