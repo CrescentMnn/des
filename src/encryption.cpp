@@ -1,4 +1,6 @@
 #include <iostream>
+#include <bitset>
+#include <array>
 #include <cstddef>
 
 /* User Headers */
@@ -38,7 +40,7 @@ const int s_boxes[8][4][16] = {
     { 15, 1, 8, 14, 6, 11, 3, 4, 9, 7, 2, 13, 12, 0, 5, 10 },
     { 3, 13, 4, 7, 15, 2, 8, 14, 12, 0, 1, 10, 6, 9, 11, 5 },
     { 0, 14, 7, 11, 10, 4, 13, 1, 5, 8, 12, 6, 9, 3, 2, 15 },
-    { 13, 8, 10, 1, 3, 15, 4, 2, 11, 6, 7, `1, 0, 5, `4, 9 }
+    { 13, 8, 10, 1, 3, 15, 4, 2, 11, 6, 7, 1, 0, 5, 4, 9 }
 },
 
 /* S3 */
@@ -91,7 +93,7 @@ const int s_boxes[8][4][16] = {
 
 };
 
-std::bitset<32> s_function(const std::bitset<48>& roun_exp_out){
+std::bitset<32> s_function(const std::bitset<48>& round_exp_out){
     std::bitset<32> s_out;
     int rows;
     int col;
@@ -104,7 +106,7 @@ std::bitset<32> s_function(const std::bitset<48>& roun_exp_out){
 	    chunk[j] = round_exp_out[i * 6 + j];
 	}
 	rows = (chunk[5] << 1) | chunk[0];
-	col = (input[4] << 3) | (input[3] << 2) | (input[2] << 1) | input[1];
+	col = (round_exp_out[4] << 3) | (round_exp_out[3] << 2) | (round_exp_out[2] << 1) | round_exp_out[1];
 
 	int s_result = s_boxes[i][rows][col];
 
@@ -117,9 +119,11 @@ std::bitset<32> s_function(const std::bitset<48>& roun_exp_out){
 }
 
 std::bitset<32> feistel_function(const std::bitset<32>& right_half, const std::bitset<48>& round_key){
-    
+    std::bitset<32> lol;
+    return lol;
 }
 
 std::bitset<64> encryption_round(const std::bitset<64>& plaintext, const std::array<std::bitset<48>, 16>& round_keys){
-    
+	std::bitset<64> lolxd;
+	return lolxd;
 }
