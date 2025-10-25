@@ -147,6 +147,16 @@ std::bitset<32> feistel_function(const std::bitset<32>& right_half, const std::b
 
     std::bitset<32> s_box = s_function(xor_out);
     std::bitset<32> perm = permutation_function(s_box);
+    
+    /* Debug */
+
+    std::cout << "key: " << round_key << std::endl;
+    std::cout << "E(R0): " << exp << std::endl;
+    std::cout << "XOR: " << xor_out << std::endl;
+    std::cout << "S-Box: " << s_box << std::endl;
+    std::cout << "P Box: " << perm << std::endl;
+    
+    std::cout << "\n\n\n" << std::endl;
 
     return perm;
 }
@@ -161,6 +171,11 @@ std::bitset<64> encryption_round(const std::bitset<64>& plaintext, const std::ar
 
     for(size_t i=0; i<16; i++){
         std::bitset<32> temp = r;
+
+	/* Debug */
+	std::cout << "Rn: " << r << std::endl;
+	std::cout << "Ln: " << l << std::endl;
+
 	r = l ^ feistel_function(r, round_keys[i]);
 	l = temp;
     }
@@ -169,6 +184,9 @@ std::bitset<64> encryption_round(const std::bitset<64>& plaintext, const std::ar
 
     rl |= (std::bitset<64>(r.to_ulong()) << 32);
     rl |= std::bitset<64>(l.to_ulong());
+    
+    /* Debug */
+    std::cout << rl << std::endl;
 
     auto ciphertext = ip_inv_function(rl);
 

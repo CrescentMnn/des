@@ -1,6 +1,7 @@
 #include <iostream>
 #include <bitset>
 #include <array>
+#include <cstddef>
 
 /* User Headers */
 
@@ -16,7 +17,12 @@ int main(){
     
     auto keys = key_schedule(key);
     auto ciphertext = encryption_round(plt, keys);
-    
+    for(size_t i=0; i<16; i++){
+        std::cout << "K" << i << ": " << keys[i] << std::endl;
+    }
+
+    std::cout << "\n\n" << std::endl;
+
     std::cout << "Ciphertext: " << ciphertext << std::endl;
 
     return 0;
