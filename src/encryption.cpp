@@ -84,6 +84,18 @@ const int s_boxes[8][4][16] = {
 }
 };
 
+std::array<std::bitset<32>, 2> split_function(const std::bitset<64>& ip_out){
+    std::bitset<32> left;
+    std::bitset<32> right;
+
+    for(size_t i=0; i<32; i++){
+        left[31 - i] = ip_out[63 - i];
+	right[31 - i] = ip_out[31 - i];
+    }
+
+    return {left, right};
+}
+
 std::bitset<32> s_function(const std::bitset<48>& round_exp_out){
     std::bitset<32> s_out;
     int rows;
@@ -123,20 +135,42 @@ std::bitset<32> permutation_function(const std::bitset<32>& s_out){
     std::bitset<32> perm_out;
     
     for(size_t i=0; i<32; i++){
-        perm_out[31 - i] = s_out[32-permutation_table[i]];
+        perm_out[31 - i] = s_out[32 - permutation_table[i]];
     }
 
     return perm_out;
 }
 
 std::bitset<32> feistel_function(const std::bitset<32>& right_half, const std::bitset<48>& round_key){
-    std::bitset<32> lol;
-    
-    return lol;
+    auto exp = expansion_function(right_half);
+    auto xor_out = exp ^ round_key;
+
+    std::bitset<32> s_box = s_function(xor_out);
+    std::bitset<32> perm = permutation_function(s_box);
+
+    return perm;
 }
 
 std::bitset<64> encryption_round(const std::bitset<64>& plaintext, const std::array<std::bitset<48>, 16>& round_keys){
-	std::bitset<64> lolxd;
 
-	return lolxd;
+    std::bitset<64> ip = ip_function(plaintext);
+    auto helper = split_function(ip);
+
+    std::bitset<32> l = helper[0];
+    std::bitset<32> r = helper[1];
+
+    for(size_t i=0; i<16; i++){
+        std::bitset<32> temp = r;
+	r = l ^ feistel_function(r, round_keys[i]);
+	l = temp;
+    }
+
+    std::bitset<64> rl;
+
+    rl |= (std::bitset<64>(r.to_ulong()) << 32);
+    rl |= std::bitset<64>(l.to_ulong());
+
+    auto ciphertext = ip_inv_function(rl);
+
+    return ciphertext;
 }

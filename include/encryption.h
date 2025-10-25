@@ -4,6 +4,8 @@
 #include <bitset>
 #include <array>
 
+std::array<std::bitset<32>, 2> split_function(const std::bitset<64>&);
+
 std::bitset<32> s_function(const std::bitset<48>&);
 
 std::bitset<48> expansion_function(const std::bitset<32>&);
