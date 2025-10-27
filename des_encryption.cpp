@@ -44,6 +44,13 @@ int main(){
     std::string long_test = "ADHSJKDHSAJKHDJAKSHDJAHDJKHDJKAH";
 
     sequence_enc(key, long_test);
+    
+    /* User input test */
+
+    std::string user_input;
+    std::getline(std::cin, user_input);
+
+    sequence_enc(key, user_input);
 
     return 0;
 }
