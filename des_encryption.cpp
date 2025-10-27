@@ -9,6 +9,7 @@
 #include "ip.h"
 #include "keys.h"
 #include "pc.h"
+#include "output.h"
 
 int main(){
 
@@ -23,7 +24,9 @@ int main(){
 
     std::cout << "\n\n" << std::endl;
 
-    std::cout << "Ciphertext: " << ciphertext << std::endl;
+    auto hexa_ciphertext = bitset_to_hex(ciphertext);
+
+    std::cout << "Ciphertext: " << hexa_ciphertext << std::endl;
 
     return 0;
 }
