@@ -89,8 +89,8 @@ std::array<std::bitset<32>, 2> split_function(const std::bitset<64>& ip_out){
     std::bitset<32> right;
 
     for(size_t i=0; i<32; i++){
-        left[31 - i] = ip_out[63 - i];
-	right[31 - i] = ip_out[31 - i];
+        left[i] = ip_out[i + 32];
+	right[i] = ip_out[i];
     }
 
     return {left, right};

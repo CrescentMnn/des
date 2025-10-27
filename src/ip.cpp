@@ -28,7 +28,7 @@ const int ip_inverse[64] = {
 std::bitset<64> ip_function(const std::bitset<64>& plaintext){
     std::bitset<64> ip_out;
     for(size_t i=0; i<64; i++){
-        ip_out[63-i] = plaintext[63 - ip_table[i]];
+        ip_out[63-i] = plaintext[64 - ip_table[i]];
     }
     return ip_out;
 };
@@ -36,7 +36,7 @@ std::bitset<64> ip_function(const std::bitset<64>& plaintext){
 std::bitset<64> ip_inv_function(const std::bitset<64>& round_text){
     std::bitset<64> ip_inv_out;
     for(size_t i=0; i<64; i++){
-        ip_inv_out[63-i] = round_text[63 - ip_inverse[i]];
+        ip_inv_out[63-i] = round_text[64 - ip_inverse[i]];
     }
     return ip_inv_out;
 }
