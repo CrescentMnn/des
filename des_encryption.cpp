@@ -12,21 +12,21 @@
 #include "output.h"
 
 int main(){
-
+    /* bits{0b0100010001000101010100110110100101110011010001100101010101001110} */
+    std::string plaintext = "DESisFUN";
     std::bitset<64> key{0b0000000100100011010001010110011110001001101010111100110111101111};
-    std::bitset<64> plt{0b0000000100100011010001010110011110001001101010111100110111101111};
-    
-    auto keys = key_schedule(key);
-    auto ciphertext = encryption_round(plt, keys);
-    for(size_t i=0; i<16; i++){
-        std::cout << "K" << i << ": " << keys[i] << std::endl;
+
+    try{
+        auto plaintext_to_bits = string_to_bitset(plaintext);
+	auto round_keys = key_schedule(key);
+	auto enc = encryption_round(plaintext_to_bits, round_keys);
+
+	std::cout << "Ciphertext: " << bitset_to_hex(enc) << std::endl;
+
+    }catch(const std::exception& e){
+        std::cerr << "Error: " << e.what() << std::endl;
+	return 1;
     }
-
-    std::cout << "\n\n" << std::endl;
-
-    auto hexa_ciphertext = bitset_to_hex(ciphertext);
-
-    std::cout << "Ciphertext: " << hexa_ciphertext << std::endl;
 
     return 0;
 }
