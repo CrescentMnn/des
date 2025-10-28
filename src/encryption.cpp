@@ -188,7 +188,34 @@ std::bitset<64> encryption_round(const std::bitset<64>& plaintext, const std::ar
     /* Debug */
     std::cout << rl << std::endl;
 
-    auto ciphertext = ip_inv_function(rl);
+    return ip_inv_function(rl);
+}
 
-    return ciphertext;
+std::bitset<64> decryption_round(const std::bitset<64>& ciphertext, const std::array<std::bitset<48>, 16>& round_keys){
+    std::bitset<64> ip = ip_function(ciphertext);
+    auto helper = split_function(ip);
+
+    std::bitset<32> l = helper[0];
+    std::bitset<32> r = helper[1];
+
+    for(int i=15; i>=0; i--){
+        std::bitset<32> temp = r;
+
+	/* Debug */
+	std::cout << "Rn: " << r << std::endl;
+	std::cout << "Ln: " << l << std::endl;
+
+	r = l ^ feistel_function(r, round_keys[i]);
+	l = temp;
+    }
+
+    std::bitset<64> rl;
+
+    rl |= (std::bitset<64>(r.to_ulong()) << 32);
+    rl |= std::bitset<64>(l.to_ulong());
+
+    /* Debug */
+    std::cout << rl << std::endl;
+
+    return ip_inv_function(rl);
 }

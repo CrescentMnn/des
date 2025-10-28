@@ -11,46 +11,42 @@
 #include "pc.h"
 #include "output.h"
 
-int sequence_enc(const std::bitset<64>& key, std::string plaintext){
-    try{
-        auto plaintext_to_bits = string_to_bitset(plaintext);
-	auto round_keys = key_schedule(key);
-	auto enc = encryption_round(plaintext_to_bits, round_keys);
+std::bitset<64> sequence_enc(const std::bitset<64>& key, std::string plaintext){
+    auto plaintext_to_bits = string_to_bitset(plaintext);
+    auto round_keys = key_schedule(key);
+    auto enc = encryption_round(plaintext_to_bits, round_keys);
 
-	std::cout << "Ciphertext: " << bitset_to_hex(enc) << std::endl;
-    }catch(const std::exception& e){
-        std::cerr << "Error: " << e.what() << std::endl;
-	return 1;
-    }
+    return enc;
+}
 
-    return 0;
+std::bitset<64> sequence_dec(const std::bitset<64>& key, const std::bitset<64>& ciphertext){
+    auto round_keys = key_schedule(key);
+    auto dec = decryption_round(ciphertext, round_keys);
+
+    return dec;
 }
 
 int main(){
     /* bits{0b0100010001000101010100110110100101110011010001100101010101001110} */
     std::string plaintext = "DESisFUN";
     std::bitset<64> key{0b0000000100100011010001010110011110001001101010111100110111101111};
-    
-    sequence_enc(key, plaintext);
 
-    /* functionality test for pading */
+    try{
 
-    std::string short_test = "LOL";
-    
-    sequence_enc(key, short_test);
+        auto encryption = sequence_enc(key, plaintext);
+    	auto decryption = sequence_dec(key, encryption);
 
-    /* functionality test for > 64 */
-    
-    std::string long_test = "ADHSJKDHSAJKHDJAKSHDJAHDJKHDJKAH";
+        std::cout << "Cipertext: " << encryption << "\n\nDecryption: " << decryption << std::endl;
+        
+        std::cout << "Hex: " << bitset_to_hex(string_to_bitset(plaintext)) << "\nHex dec: " << bitset_to_hex(decryption) << std::endl;
 
-    sequence_enc(key, long_test);
-    
-    /* User input test */
+	if(decryption == string_to_bitset(plaintext)){ std::cout << "Decryption Correct" << std::endl; }
+	else{ std::cout << "Verification failed" << std::endl; } 
 
-    std::string user_input;
-    std::getline(std::cin, user_input);
-
-    sequence_enc(key, user_input);
+    }catch(const std::exception& e){
+        std::cerr << "Error: " << e.what() << std::endl;
+	return 1;
+    }
 
     return 0;
 }

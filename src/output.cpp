@@ -31,3 +31,22 @@ std::bitset<64> string_to_bitset(std::string plaintext){
 
     return std::bitset<64>(value);
 }
+
+std::bitset<64> hex_to_bitset(std::string hex_str) {
+    // Remove "0x" prefix if present
+    if(hex_str.substr(0, 2) == "0x" || hex_str.substr(0, 2) == "0X") {
+        hex_str = hex_str.substr(2);
+    }
+    
+    // Validate length
+    if(hex_str.empty()) {
+        throw std::invalid_argument("Hex string cannot be empty");
+    }
+    if(hex_str.length() > 16) {
+        throw std::invalid_argument("Hex string too long (max 16 chars for 64 bits)");
+    }
+    
+    // Convert to bitset
+    unsigned long long value = std::stoull(hex_str, nullptr, 16);
+    return std::bitset<64>(value);
+}
