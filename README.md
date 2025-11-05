@@ -39,3 +39,6 @@ It operates through a Feistel network consisting of 16 rounds, where each round 
 ```
 g++ -I ./include src/*.cpp des_encryption.cpp -o DES_build
 ```
+
+## CONSIDERATIONS
+It is important to note that this DES implementation was done merely for educational purposes (specifically for a class assignment) in which i decided to code the implementation myself to get a better grasp of how this enccrytpion standard worked, it should also be noted that you should **avoid using personally made crypto**, as it is often the most insecure way of adopting these standards, even if its an implementation of a secure and widely used standard.
