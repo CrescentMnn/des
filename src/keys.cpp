@@ -48,6 +48,11 @@ std::array<std::bitset<48>, 16> key_schedule(const std::bitset<64>& original_key
 
 	key_output[i] = pc2_function(join_shifts);
     }
+    
+    /* Debug | Verbose */
+    std::cout << "-------------------------Key Generation----------------------" << std::endl;
+    for(size_t i=0; i<16; i++){ std::cout << key_output[i] << std::endl; }
+    std::cout << "\n\n" << std::endl;
 
     return key_output;
 }

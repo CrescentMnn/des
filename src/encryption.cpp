@@ -170,11 +170,12 @@ std::bitset<64> encryption_round(const std::bitset<64>& plaintext, const std::ar
     std::bitset<32> r = helper[1];
 
     for(size_t i=0; i<16; i++){
+        std::cout << "--------------------------Encryption Round " << i << "-------------------------" << std::endl;
         std::bitset<32> temp = r;
 
 	/* Debug */
-	std::cout << "Rn: " << r << std::endl;
-	std::cout << "Ln: " << l << std::endl;
+	std::cout << "R" << i << ": " << r << std::endl;
+	std::cout << "L" << i << ": " << l << std::endl;
 
 	r = l ^ feistel_function(r, round_keys[i]);
 	l = temp;
@@ -184,9 +185,6 @@ std::bitset<64> encryption_round(const std::bitset<64>& plaintext, const std::ar
 
     rl |= (std::bitset<64>(r.to_ulong()) << 32);
     rl |= std::bitset<64>(l.to_ulong());
-    
-    /* Debug */
-    std::cout << rl << std::endl;
 
     return ip_inv_function(rl);
 }
@@ -199,11 +197,13 @@ std::bitset<64> decryption_round(const std::bitset<64>& ciphertext, const std::a
     std::bitset<32> r = helper[1];
 
     for(int i=15; i>=0; i--){
+	
+        std::cout << "--------------------------Decryption Round " << i << "-------------------------" << std::endl;
         std::bitset<32> temp = r;
 
 	/* Debug */
-	std::cout << "Rn: " << r << std::endl;
-	std::cout << "Ln: " << l << std::endl;
+	std::cout << "R" << i << ": " << r << std::endl;
+	std::cout << "L" << i << ": " << l << std::endl;
 
 	r = l ^ feistel_function(r, round_keys[i]);
 	l = temp;
@@ -213,9 +213,6 @@ std::bitset<64> decryption_round(const std::bitset<64>& ciphertext, const std::a
 
     rl |= (std::bitset<64>(r.to_ulong()) << 32);
     rl |= std::bitset<64>(l.to_ulong());
-
-    /* Debug */
-    std::cout << rl << std::endl;
 
     return ip_inv_function(rl);
 }
