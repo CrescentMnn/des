@@ -6,6 +6,7 @@
 /* User Headers */
 
 #include "ip.h"
+#include "logger.h"
 
 const int expansion_table[64] = {
 	32, 1, 2, 3, 4, 5,
@@ -149,14 +150,11 @@ std::bitset<32> feistel_function(const std::bitset<32>& right_half, const std::b
     std::bitset<32> perm = permutation_function(s_box);
     
     /* Debug */
-
-    std::cout << "key: " << round_key << std::endl;
-    std::cout << "E(R0): " << exp << std::endl;
-    std::cout << "XOR: " << xor_out << std::endl;
-    std::cout << "S-Box: " << s_box << std::endl;
-    std::cout << "P Box: " << perm << std::endl;
-    
-    std::cout << "\n\n\n" << std::endl;
+    Logger::log("key: " + round_key.to_string());
+    Logger::log("E(R0): " + exp.to_string());
+    Logger::log("XOR: " + xor_out.to_string());
+    Logger::log("S-Box: " + s_box.to_string());
+    Logger::log("P-Box: " + perm.to_string());
 
     return perm;
 }
@@ -170,13 +168,12 @@ std::bitset<64> encryption_round(const std::bitset<64>& plaintext, const std::ar
     std::bitset<32> r = helper[1];
 
     for(size_t i=0; i<16; i++){
-        std::cout << "--------------------------Encryption Round " << i << "-------------------------" << std::endl;
+	    Logger::log("--------------------------Encryption Round " + std::to_string(i) + "-------------------------");
         std::bitset<32> temp = r;
 
 	/* Debug */
-	std::cout << "R" << i << ": " << r << std::endl;
-	std::cout << "L" << i << ": " << l << std::endl;
-
+        Logger::log("R" + std::to_string(i));
+        Logger::log("L" + std::to_string(i));
 	r = l ^ feistel_function(r, round_keys[i]);
 	l = temp;
     }
@@ -198,13 +195,12 @@ std::bitset<64> decryption_round(const std::bitset<64>& ciphertext, const std::a
 
     for(int i=15; i>=0; i--){
 	
-        std::cout << "--------------------------Decryption Round " << i << "-------------------------" << std::endl;
+        Logger::log("--------------------------Decryption Round " + std::to_string(i) + "-------------------------");
         std::bitset<32> temp = r;
 
 	/* Debug */
-	std::cout << "R" << i << ": " << r << std::endl;
-	std::cout << "L" << i << ": " << l << std::endl;
-
+        Logger::log("R" + std::to_string(i));
+	Logger::log("L" + std::to_string(i));
 	r = l ^ feistel_function(r, round_keys[i]);
 	l = temp;
     }

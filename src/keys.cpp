@@ -6,6 +6,7 @@
 
 /* Project headers */
 #include "pc.h"
+#include "logger.h"
 
 const int round_shift[16] = {1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
 
@@ -50,8 +51,8 @@ std::array<std::bitset<48>, 16> key_schedule(const std::bitset<64>& original_key
     }
     
     /* Debug | Verbose */
-    std::cout << "-------------------------Key Generation----------------------" << std::endl;
-    for(size_t i=0; i<16; i++){ std::cout << key_output[i] << std::endl; }
+    Logger::log("-------------------------Key Generation----------------------");
+    for(size_t i=0; i<16; i++){ Logger::log(key_output[i].to_string()); }
     std::cout << "\n\n" << std::endl;
 
     return key_output;

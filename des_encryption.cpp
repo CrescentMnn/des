@@ -10,6 +10,7 @@
 #include "keys.h"
 #include "pc.h"
 #include "output.h"
+#include "logger.h" 
 
 std::bitset<64> sequence_enc(const std::bitset<64>& key, std::string plaintext){
     auto plaintext_to_bits = string_to_bitset(plaintext);
@@ -26,10 +27,18 @@ std::bitset<64> sequence_dec(const std::bitset<64>& key, const std::bitset<64>& 
     return dec;
 }
 
-int main(){
+int main(int argc, char** argv){
     /* bits{0b0100010001000101010100110110100101110011010001100101010101001110} */
     std::string plaintext = "DESisFUN";
     std::bitset<64> key{0b0000000100100011010001010110011110001001101010111100110111101111};
+    
+    for(size_t i=1; i<argc; i++){
+	std::string arg = argv[i];
+
+        if(arg == "--verbose" || arg == "-v"){
+	    Logger::setVerbose(true);
+	}
+    }
 
     try{
 
